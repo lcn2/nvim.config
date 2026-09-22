@@ -203,8 +203,13 @@ vim.pack.add({
     'https://github.com/mfussenegger/nvim-dap',
 
     -- 'https://github.com/stevearc/oil.nvim',
-    -- 'https://github.com/kdheepak/lazygit.nvim',
-    -- 'https://github.com/esmuellert/codediff.nvim',
+
+    -- lazygit.nvim — lazygit inside Neovim
+    'https://github.com/kdheepak/lazygit.nvim',
+
+    -- codediff.nvim — side-by-side vscode like diff viewer
+    'https://github.com/esmuellert/codediff.nvim',
+
     -- 'https://github.com/goolord/alpha-nvim',
 
     -- render-markdown - render markdown
@@ -456,3 +461,42 @@ vim.keymap.set('n', '<Down>', dap.step_over, { desc = 'Debug step over' })
 vim.keymap.set('n', '<Right>', dap.step_into, { desc = 'Debug step into' })
 vim.keymap.set('n', '<Left>', dap.step_out, { desc = 'Debug step out' })
 vim.keymap.set('n', '<Up>', dap.restart_frame, { desc = 'Debug restart frame' })
+
+-- Lazygit.nvim
+local function git_line_history(start_line, end_line)
+    start_line, end_line = math.min(start_line, end_line), math.max(start_line, end_line)
+    local range = start_line .. ',' .. end_line .. ':' .. vim.fn.expand('%:t')
+    local command = { 'git', '-C', vim.fn.expand('%:p:h'), '--no-pager', 'log', '-L', range }
+    local output = vim.fn.systemlist(command)
+    local command_text = vim.fn.join(vim.tbl_map(vim.fn.shellescape, command), ' ')
+
+    vim.cmd('vnew')
+    vim.bo.buftype = 'nofile'
+    vim.bo.filetype = 'diff'
+    vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.list_extend({ command_text, '' }, output))
+    vim.bo.modified = false
+end
+
+vim.keymap.set('n', '<leader>gg', '<cmd>LazyGit<cr>', { desc = 'Lazygit' })
+vim.keymap.set('n', '<leader>gb', function() vim.ui.open(vim.fn.systemlist('git remote get-url origin')[1]) end,
+    { desc = 'Open git remote' })
+vim.keymap.set('n', '<leader>gl', function()
+    git_line_history(vim.fn.line('.'), vim.fn.line('.'))
+end, { desc = 'Git line history' })
+vim.keymap.set('v', '<leader>gl', function()
+    git_line_history(vim.fn.line('v'), vim.fn.line('.'))
+end, { desc = 'Git line history' })
+
+-- Codediff (vscode like diffs :))
+require("codediff").setup({})
+vim.keymap.set('n', '<leader>ru', '<cmd>CodeDiff<cr>', { desc = 'Code diff not staged' })
+vim.keymap.set('n', '<leader>rm', '<cmd>CodeDiff main<cr>', { desc = 'Code diff main' })
+vim.keymap.set('n', '<leader>rh', '<cmd>CodeDiff HEAD~1<cr>', { desc = 'Code diff previous commit' })
+vim.api.nvim_create_autocmd("User", {
+    pattern = "CodeDiffOpen",
+    callback = function()
+	for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+	    vim.wo[win].cursorline = false
+	end
+    end,
+})
