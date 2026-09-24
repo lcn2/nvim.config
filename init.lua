@@ -220,6 +220,9 @@ vim.pack.add({
 
     -- Colorschemes
     'https://github.com/rebelot/kanagawa.nvim',
+
+    -- copilot.vim - official GitHub Copilot plugin for Neovim
+    'https://github.com/github/copilot.vim',
 })
 
 -- Kanagawa Colorscheme
@@ -299,6 +302,7 @@ pcall(function()
         ensure_installed = { "bash", "c", "lua", "vim", "vimdoc" },
     })
 end)
+opts = { ensure_installed = { "cpp" } }
 
 -- LSP
 vim.lsp.config('rust_analyzer', {
@@ -476,7 +480,6 @@ local function git_line_history(start_line, end_line)
     vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.list_extend({ command_text, '' }, output))
     vim.bo.modified = false
 end
-
 vim.keymap.set('n', '<leader>gg', '<cmd>LazyGit<cr>', { desc = 'Lazygit' })
 vim.keymap.set('n', '<leader>gb', function() vim.ui.open(vim.fn.systemlist('git remote get-url origin')[1]) end,
     { desc = 'Open git remote' })
