@@ -202,7 +202,8 @@ vim.pack.add({
     -- nvim-dap - Debug Adapter Protocol client implementation for Neovim
     'https://github.com/mfussenegger/nvim-dap',
 
-    -- 'https://github.com/stevearc/oil.nvim',
+    -- oil.nvim - a file explorer for neovim
+    'https://github.com/stevearc/oil.nvim',
 
     -- lazygit.nvim — lazygit inside Neovim
     'https://github.com/kdheepak/lazygit.nvim',
@@ -465,6 +466,27 @@ vim.keymap.set('n', '<Down>', dap.step_over, { desc = 'Debug step over' })
 vim.keymap.set('n', '<Right>', dap.step_into, { desc = 'Debug step into' })
 vim.keymap.set('n', '<Left>', dap.step_out, { desc = 'Debug step out' })
 vim.keymap.set('n', '<Up>', dap.restart_frame, { desc = 'Debug restart frame' })
+
+-- Oil.nvim
+require("oil").setup({
+	keymaps = {
+		["<C-h>"] = "<C-w>h",
+		["<BS>"] = "<C-w>h", -- only if your terminal sends Ctrl-h as BS
+		["<C-l>"] = "<C-w>l",
+		["<C-j>"] = "<C-w>j",
+		["<C-k>"] = "<C-w>k",
+	},
+	columns = {
+		{ "mtime", highlight = "Comment" } },
+	view_options = {
+		show_hidden = true,
+		sort = {
+			{ "type",  "asc" },
+			{ "mtime", "desc" },
+		}
+	},
+})
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 -- Lazygit.nvim
 local function git_line_history(start_line, end_line)
