@@ -1,102 +1,7 @@
 -- begin historic vim preferences
 
--- set UTF-8 encoding
---
-vim.o.encoding = "utf-8"
-
--- Enable autoindent
---
-vim.o.ai = true
-
--- Declare the tags file as tags
---
--- CTRL-]                  Jump to definition of the keyword under cursor
--- :[count]ta[g] {name}    Jump to the count definition of {name}
--- :[count]ta[g]! {regexp} Jump to the count definition of {regexp} pattern
---
-vim.o.tags = "tags"
-
--- Enable vim dark mode
---
-vim.o.bg = "dark"
-
--- Ignore case in searches
---
--- NOTE: Can be overruled by using "\c" or "\C" in the pattern
---
-vim.o.ignorecase = true
-
--- Case-insensitive searching unless we use capital letters
---
-vim.o.smartcase = true
-
--- See: //stackoverflow.com/questions/1878974/redefine-tab-as-4-spaces
---
--- tabstop
---
---    The width of a hard tabstop measured in "spaces" -- effectively the
---    (maximum) width of an actual tab character.
---
-vim.o.tabstop = 8
-
--- shiftwidth
---
---    The size of an "indent". It's also measured in spaces, so if your
---    code base indents with tab characters then you want shiftwidth to
---    equal the number of tab characters times tabstop. This is also used
---    by things like the =, > and < commands.
---
-vim.o.shiftwidth = 4
-
--- softtabstop
---
---    Setting this to a non-zero value other than tabstop will make the
---    tab key (in insert mode) insert a combination of spaces (and possibly
---    tabs) to simulate tab stops at this width.
---
-vim.o.softtabstop = 4
-
--- expandtab
---
---    Enabling this will make the tab key (in insert mode) insert spaces
---    instead of tab characters. This also affects the behavior of the
---    retab command.
---
-vim.o.expandtab = false
-
--- smarttab
---
---    Enabling this will make the tab key (in insert mode) insert spaces
---    or tabs to go to the next indent of the next tabstop when the cursor
---    is at the beginning of a line (i.e. the only preceding characters
---    are whitespace).
---
-vim.o.smarttab = true
-
--- format current paragraph
---
-vim.keymap.set('n', '<Esc>g', '}!{fmt<CR>', { desc = 'apply the fmt command to the current paragraph' })
-
--- trim trailing whitespace
---
-vim.keymap.set('n', '<Esc>l', ':%s/<Bslash>s<Bslash>+$//e<CR>', { desc = 'trim trailing whitespace' })
-
--- look for spaces before a tab
---
-vim.keymap.set('n', '<Esc>s', '/  *<Tab><CR>', { desc = 'look for spaces before a tab' })
-
--- shellcheck file
---
--- See https://github.com/itspriddle/vim-shellcheck
---
--- To install:
---
--- mkdir -p ~/.vim/pack/shellcheck/start
--- cd ~/.vim/pack/shellcheck/start
--- git clone https://github.com/itspriddle/vim-shellcheck.git
--- vim -u NONE -c "helptags vim-shellcheck/doc" -c q
---
-vim.keymap.set('n', '<Esc>c', ':compiler shellcheck<CR>::make! %<CR>:copen<CR>', { desc = 'run shellcheck on current file' })
+-- Source your authoritative Vim configuration directly
+vim.cmd('source ~/.vimrc')
 
 -- Restore cursor position in Neovim when opening multiple files
 -- Source - https://stackoverflow.com/a/79676790
@@ -137,6 +42,16 @@ autocmd('BufReadPost', {
 -- Set <space> as leader (must happen before other plugins loaded)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+
+-- Disable Copilot's default tab mapping to avoid conflicts with other plugins
+vim.g.copilot_no_tab_map = true
+
+-- Map Copilot accept to a dedicated combo
+vim.keymap.set('i', '<M-l>', 'copilot#Accept("\\<CR>")', {
+  expr = true,
+  replace_keycodes = false,
+  desc = 'Accept Copilot suggestion'
+})
 
 -- Relative line numbers
 vim.o.relativenumber = true
@@ -225,26 +140,9 @@ vim.pack.add({
     -- blink.cmp - fast Rust-based autocompletion engine
     { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.x') }, -- pinning so rust binary dependency automatically downloads
 
-    -- Colorschemes
-    'https://github.com/rebelot/kanagawa.nvim',
-
     -- copilot.vim - official GitHub Copilot plugin for Neovim
     'https://github.com/github/copilot.vim',
 })
-
--- Kanagawa Colorscheme
-require('kanagawa').setup({
-    colors = {
-	theme = {
-	    all = {
-		ui = {
-		    bg_gutter = "none"
-		}
-	    }
-	}
-    }
-})
-vim.cmd('colorscheme kanagawa-wave')
 
 -- Markdown
 require('render-markdown').setup({})
