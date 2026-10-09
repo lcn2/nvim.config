@@ -1,4 +1,4 @@
--- histroic vim preferences
+-- begin historic vim preferences
 
 -- set UTF-8 encoding
 --
@@ -125,6 +125,12 @@ autocmd('BufReadPost', {
     desc = 'Restore cursor position after reopening file',
 })
 
+-- end historic vim preferences
+
+-- What follows is a modern Neovim configuration using Lua. It includes plugins, LSP, Treesitter, and other enhancements.
+-- The configuration is designed to be modular, efficient, and user-friendly.
+-- It is inspired by the work of vossenwout and others in the Neovim community such as the following resources:
+--
 -- See: https://youtu.be/BBCScVuP3xo?si=3Ozoi7dRw3ei5T0B
 -- See: https://github.com/vossenwout/pookie-dotfiles/blob/main/neovim/.config/nvim/init.lua
 
