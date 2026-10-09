@@ -5,6 +5,10 @@
       "src": "https://github.com/saghen/blink.cmp",
       "version": "1.0.0 - 2.0.0"
     },
+    "codecompanion.nvim": {
+      "rev": "3dd1ef7fa8d6aeb27020023e40293bac588de714",
+      "src": "https://github.com/olimorris/codecompanion.nvim"
+    },
     "codediff.nvim": {
       "rev": "09d9ebef2cc5a5c04db7a349cd6c61bdf84ecc8e",
       "src": "https://github.com/esmuellert/codediff.nvim"
@@ -45,9 +49,17 @@
       "rev": "b73018b75affd13fa38e2fc94ef753b465f770d7",
       "src": "https://github.com/stevearc/oil.nvim"
     },
+    "plenary.nvim": {
+      "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
+      "src": "https://github.com/nvim-lua/plenary.nvim"
+    },
     "render-markdown.nvim": {
       "rev": "640a3ec6d538bad17c328be373c7cad0293d9589",
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
+    },
+    "vim-tmux-navigator": {
+      "rev": "e41c431a0c7b7388ae7ba341f01a0d217eb3a432",
+      "src": "https://github.com/christoomey/vim-tmux-navigator"
     }
   }
 }
