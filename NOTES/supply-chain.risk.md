@@ -1,3 +1,5 @@
+## Remarks on the software supply chain risk of using Neovim plugins
+
 ### 3. Supply Chain Risk: Audit of Your Remaining Plugins
 
 Your plugin list is down to 10 plugins. Here is an honest security assessment of what remains:

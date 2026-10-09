@@ -1,3 +1,5 @@
+## Remarks on Neovim auto-completion
+
 ### 1. What is `<M-l>`?
 
 In classic Vim terminology, **`M` stands for "Meta"**:
@@ -25,7 +27,7 @@ vim.keymap.set('i', '<C-j>', 'copilot#Accept("\\<CR>")', {
 
 ---
 
-### 3. Understanding and Controlling Autocompletions
+### 2. Understanding and Controlling Autocompletions
 
 In your setup, you have **two separate autocompletion engines** running simultaneously in insert mode:
 

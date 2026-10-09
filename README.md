@@ -17,7 +17,7 @@ We added some files to `NOTES/` as follows:
 
 - NOTES/auto-complete.md
 
-Remarks about Neovim auto-completion.
+Remarks on Neovim auto-completion.
 
 - NOTES/gemini.20261009.summary.md
 
@@ -38,7 +38,7 @@ but it put here for historical reference.
 
 - NOTES/RHEL10.2.neovim.md
 
-Remarks about running Neovim under Red Hat Enterprise Linux 10.2.
+Remarks about running Neovim under RHEL 10.2
 
 - NOTES/safe.20261009.init.lua
 

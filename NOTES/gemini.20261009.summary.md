@@ -1,3 +1,5 @@
+## A summary of a discussion with Gemini about Neovim
+
 Having a shared, version-controlled Neovim configuration that runs cleanly across both macOS and enterprise Linux—without plugin drift or syntax crashes—is a major milestone.
 
 Here is a quick summary of what you now have in place across both environments:
@@ -11,5 +13,3 @@ Here is a quick summary of what you now have in place across both environments:
 * **Fast Native Completion & Search:** `blink.cmp` driving LSP completions on `<Tab>`, paired with `fzf-lua` on `<leader><leader>` and `<leader>/`.
 * **Supply-Chain Security:** A minimal, audited footprint of 7 plugins pinned via `nvim-pack-lock.json` and tracked in Git.
 * **tmux-Ready:** `vim-tmux-navigator` wired and waiting for when you start building out your `~/.tmux.conf`.
-
-Whenever you are ready to tackle `tmux(1)` configuration or wire the window-navigation bindings between tmux and Neovim, let me know!

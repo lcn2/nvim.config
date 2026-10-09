@@ -1,3 +1,9 @@
+-- IMPORTANT NOTE: This was an old attempt at an `init.lua` file
+--		   This file is NOT recommended, and was replaced
+--		   by `safe.20261009.init.lua`, which was used to
+--		   form the current `init.lua`.  This file is for
+--		   historic archival purposes ONLY!  DO NOT USE!!
+
 -- begin historic vim preferences
 
 -- Source your authoritative Vim configuration directly

@@ -1,6 +1,4 @@
-### Why `:lua vim.pack.del({'codediff.nvim'})` Failed
-
-`vim.pack.del` has a safety guard: **it refuses to delete any plugin that is actively loaded into the current running Neovim process or still listed in `init.lua**`.
+## How to delete an installed Neovim plugin
 
 To delete a plugin using `vim.pack`, follow this exact sequence:
 
@@ -15,14 +13,12 @@ To delete a plugin using `vim.pack`, follow this exact sequence:
 
 ```
 
-
 3. **Re-open Neovim** (now `codediff.nvim` is inactive and not loaded into memory).
 4. **Run the delete command:**
 ```vim
 :lua vim.pack.del({'codediff.nvim'})
 
 ```
-
 
 *Alternative manual removal:* If you ever want to bypass Neovim's check, you can always delete the directory directly from your shell:
 ```bash

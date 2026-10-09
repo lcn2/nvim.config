@@ -1,3 +1,5 @@
+## Remarks on a threat model for using Neovim
+
 Here is a comprehensive security audit of your Neovim environment, addressing threat models, exposure vectors, supply chain pinning, and dependency minimization.
 
 ---
@@ -32,8 +34,6 @@ Analyzing your configuration by operational behavior:
 * **`copilot.vim`:** Runs a local Node.js agent in the background that continuously streams your file content, cursor context, and neighboring tabs to GitHub/Microsoft servers (`api.github.com`).
 * **`codecompanion.nvim` / `plenary.nvim`:** Whenever you invoke Gemini actions or chat, `plenary.curl` sends the buffer selection or chat prompt along with `GEMINI_API_KEY` to Google's API endpoints (`generativelanguage.googleapis.com`).
 
-
-
 ---
 
 ## 3. Pin-Locking Methods (Freezing Upstream Changes)
@@ -64,8 +64,6 @@ git fetch origin
 git log --oneline HEAD..origin/main
 
 ```
-
-
 
 ---
 
@@ -99,7 +97,5 @@ If you strip out Group 1, your entire setup reduces to:
 * `blink.cmp` (Fast, isolated completion; already pinned to `1.x`).
 * `github/copilot.vim` (Official GitHub/Microsoft plugin).
 * `plenary.nvim` + `olimorris/codecompanion.nvim` (Gemini Pro integration).
-
-
 
 This drops your external plugin footprint from 14 down to 7 well-established, focused tools while preserving every aspect of your classic Vim feel, Copilot ghost-text, and Gemini Pro chat.

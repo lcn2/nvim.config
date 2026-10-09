@@ -1,3 +1,7 @@
+## Remarks about running Neovim under RHEL 10.2
+
+FYI: RHEL10.2 is the Red Hat Enterprise Linux 10.2 distribution.
+
 The syntax of the Lua language itself hasn't changed, but the Neovim API has: **`vim.pack` is a new built-in package management API added in Neovim 0.12**. In Neovim 0.10.x, `vim.pack` does not exist (`nil`), which is why line 57 crashes on RHEL 10.2.
 
 Additionally, line 147 (`vim.lsp.config` / `vim.lsp.enable`) is also an API introduced in Neovim 0.11/0.12. In 0.10.1, language servers were started via `require('lspconfig').<server>.setup({})`.
@@ -131,7 +135,6 @@ cd ~/.config/nvim && git pull
 
 ```
 
-
 2. **Initialize and sync plugins from your lockfile:**
 Open Neovim on RHEL:
 ```bash
@@ -139,13 +142,11 @@ nvim
 
 ```
 
-
 Run the sync command so Neovim downloads the exact commit hashes recorded in `nvim-pack-lock.json`:
 ```vim
 :lua vim.pack.update()
 
 ```
-
 
 3. **Export your API key on RHEL:**
 Add your Gemini key to `~/.bashrc` (or your preferred shell rc file) on the RHEL box:
@@ -154,14 +155,12 @@ export GEMINI_API_KEY="your-gemini-api-key"
 
 ```
 
-
 4. **Authenticate GitHub Copilot on RHEL:**
 Inside Neovim, authenticate with your GitHub account:
 ```vim
 :Copilot setup
 
 ```
-
 
 Follow the one-time browser/terminal device verification flow.
 

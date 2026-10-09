@@ -1,3 +1,5 @@
+## Remarks about putting Neovim configuration under git control
+
 ### Should You Put `~/.local/share/nvim/site/pack/core/opt` Under Git Control?
 
 **No, do not put the entire `opt` directory directly into a parent Git repository.**
@@ -41,14 +43,3 @@ You can **vendor** your plugins:
 1. Clone or copy the plugin directories directly into `~/.config/nvim/pack/vendor/start/` (removing their `.git` directories or tracking them as clean directories).
 2. Because Vim and Neovim natively load anything under `pack/*/start/` on startup, they become static parts of your configuration repository.
 3. However, tracking `nvim-pack-lock.json` with `vim.pack` achieves 99% of this benefit with far less repository bloat.
-
----
-
-### Next Step: Reviewing `init.lua` and `nvim-pack-lock.json`
-
-Whenever you are ready:
-
-1. Paste your latest `~/.config/nvim/init.lua` after the removals you made.
-2. Paste the contents of `~/.local/share/nvim/site/pack/nvim-pack-lock.json`.
-
-We can inspect the exact commit hashes, verify that removed plugins were cleanly excised, and confirm the dependency tree is sound.

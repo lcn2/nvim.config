@@ -1,3 +1,7 @@
+-- IMPORTANT NOTE: This replaced the old unsafe `safe.20261009.init.lua`.
+--		   This file is for  historic archival purposes ONLY!
+--		   Use the `init.lua` file instead.
+
 -- =============================================================================
 -- Restore classic Vim terminal colors and syntax palette
 -- =============================================================================
