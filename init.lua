@@ -1,4 +1,18 @@
 -- =============================================================================
+-- Restore classic Vim terminal colors and syntax palette
+-- =============================================================================
+
+-- 1. Disable 24-bit TrueColor so Neovim respects your terminal's ANSI palette
+--    and your ~/.vimrc cterm highlight definitions (ctermfg, ctermbg).
+vim.o.termguicolors = false
+
+-- 2. Restore Vim's classic built-in default colorscheme
+vim.cmd('colorscheme vim')
+
+-- 3. Ensure background matches your .vimrc setting
+vim.o.background = 'dark'
+
+-- =============================================================================
 -- Source your authoritative Vim configuration directly
 -- =============================================================================
 
@@ -146,12 +160,15 @@ vim.keymap.set('n', '<leader>fc', '<cmd>FzfLua colorschemes<cr>', { desc = 'Pick
 -- Setup for: nvim-treesitter — syntax highlighting and code parsing via Tree-sitter
 -- =============================================================================
 
-vim.cmd('syntax on')
-vim.api.nvim_create_autocmd('FileType', {
-    callback = function()
-        pcall(vim.treesitter.start)
-    end,
-})
+-- Use classic Vim syntax engine instead of Treesitter highlighters
+vim.cmd('syntax enable')
+
+-- To disable Treesitter overriding your classic Vim colors, comment out the autostart:
+-- vim.api.nvim_create_autocmd('FileType', {
+--     callback = function()
+--         pcall(vim.treesitter.start)
+--     end,
+-- })
 
 -- Safe setup check for nvim-treesitter parsers
 pcall(function()
