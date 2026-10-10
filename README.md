@@ -4,9 +4,20 @@ Neovim configuration that starts off with classic `vim(1)` and uses your `~/.vim
 
 ## To Install
 
+```sh
 mkdir -p ~/.config
 git clone https://github.com/lcn2/nvim.config.git nvim
 nvim init.lua
+```
+
+### say Y when neovim first asks you to install plugins
+
+### optional: setup the included vim enviroment
+
+```sh
+if [[ -e ~/.vimrc ]]; then mv -f ~/.vimrc ~/.vimrc.old ; fi
+cp -f NOTES/dot-vimrc ~/.vimrc
+```
 
 ## General remarks
 
@@ -15,9 +26,14 @@ the classic `vim(1)` look-and-feel.
 
 We added some files to `NOTES/` as follows:
 
+- NOTES/dot-vimrc
+
+This is a copy of our `~/.vimrc` that is included early on in our `init.lua`.
+You will need to copy this file only if you want to re-create our full experience.
+
 - NOTES/auto-complete.md
 
-Remarks on Neovim auto-completion.
+Remarks on neovim auto-completion.
 
 - NOTES/gemini.20261009.summary.md
 
@@ -29,7 +45,7 @@ How to delete an installed Neovim plugin.
 
 - NOTES/neovim.under.git.md
 
-Remarks about putting Neovim configuration under git control.
+Remarks about putting neovim configuration under git control.
 
 - NOTES/old.20261007.init.lua
 
@@ -38,7 +54,7 @@ but it put here for historical reference.
 
 - NOTES/RHEL10.2.neovim.md
 
-Remarks about running Neovim under RHEL 10.2
+Remarks about running neovim under RHEL 10.2
 
 - NOTES/safe.20261009.init.lua
 
@@ -48,8 +64,8 @@ use the current `init.lua` and treat this file as a historical reference.
 
 - NOTES/supply-chain.risk.md
 
-Remarks on the software supply chain risk of using Neovim plugins.
+Remarks on the software supply chain risk of using neovim plugins.
 
 - NOTES/threat.model.md
 
-Remarks on a threat model for using Neovim.
+Remarks on a threat model for using neovim.
