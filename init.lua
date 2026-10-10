@@ -49,6 +49,64 @@ vim.keymap.set('n', '<leader>cr', function()
 end, { desc = 'Copy relative path' })
 
 -- =============================================================================
+-- Restore last cursor position when reopening a file
+-- =============================================================================
+
+local restore_group = vim.api.nvim_create_augroup('restore_cursor_position', { clear = true })
+
+-- Save position on buffer exit specifically for config files
+vim.api.nvim_create_autocmd({ 'BufLeave', 'VimLeavePre' }, {
+    group = restore_group,
+    callback = function()
+        local buf = vim.api.nvim_get_current_buf()
+        if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buftype == '' then
+            local pos = vim.api.nvim_win_get_cursor(0)
+            -- Save directly into a global mark 'Z so it survives startup sourcing
+            if pos[1] > 1 then
+                pcall(vim.api.nvim_buf_set_mark, buf, 'Z', pos[1], pos[2], {})
+            end
+        end
+    end,
+})
+
+-- Restore position after UI initialization is fully complete
+vim.api.nvim_create_autocmd({ 'BufReadPost', 'UIEnter' }, {
+    group = restore_group,
+    callback = function(args)
+        local buf = (args.buf and args.buf ~= 0) and args.buf or vim.api.nvim_get_current_buf()
+        if not vim.api.nvim_buf_is_valid(buf) or vim.b[buf].cursor_restored then
+            return
+        end
+
+        local exclude_filetypes = { 'gitcommit', 'gitrebase', 'help', 'qf' }
+        if vim.tbl_contains(exclude_filetypes, vim.bo[buf].filetype) or vim.bo[buf].buftype ~= '' then
+            return
+        end
+
+        -- Check standard '"' mark first; if line <= 1, check our saved 'Z mark
+        local mark = vim.api.nvim_buf_get_mark(buf, '"')
+        if mark[1] <= 1 then
+            local z_mark = vim.api.nvim_buf_get_mark(buf, 'Z')
+            if z_mark[1] > 1 then
+                mark = z_mark
+            end
+        end
+
+        local line_count = vim.api.nvim_buf_line_count(buf)
+        if mark[1] > 1 and mark[1] <= line_count then
+            vim.b[buf].cursor_restored = true
+            vim.schedule(function()
+                if vim.api.nvim_buf_is_valid(buf) then
+                    pcall(vim.api.nvim_win_set_cursor, 0, mark)
+                    vim.cmd('normal! zvzz')
+                end
+            end)
+        end
+    end,
+    desc = 'Jump to last known cursor position on file reopen',
+})
+
+-- =============================================================================
 -- Plugins
 --
 -- Note: Update plugins via :lua vim.pack.update()
@@ -198,6 +256,20 @@ require('blink.cmp').setup({
 -- =============================================================================
 -- Setup for: copilot.vim - official GitHub Copilot plugin for Neovim
 -- =============================================================================
+
+-- Determine the proper Node.js binary path across macOS and RHEL
+local node_candidates = {
+    '/opt/homebrew/bin/node', -- macOS Apple Silicon
+    '/usr/local/bin/node',    -- macOS Intel or local build
+    '/usr/bin/node',          -- RHEL / Linux standard
+}
+
+for _, bin in ipairs(node_candidates) do
+    if vim.fn.executable(bin) == 1 then
+        vim.g.copilot_node_command = bin
+        break
+    end
+end
 
 -- 1. Prevent Copilot from mapping <Tab> so blink.cmp's super-tab can function.
 vim.g.copilot_no_tab_map = true
