@@ -1,0 +1,308 @@
+"
+" Set language for messages - required for Debian
+"
+:language messages en_US.UTF-8
+
+" set UTF-8 encoding
+"
+:set encoding=utf8
+
+" Enable autoindent
+"
+:set ai
+
+" Declare the tags file as tags
+"
+" CTRL-]		  Jump to definition of the keyword under cursor
+" :[count]ta[g] {name}	  Jump to the count definition of {name}
+" :[count]ta[g]! {regexp} Jump to the count definition of {regexp} pattern
+"
+:set tags=tags
+
+" Enable vim dark mode
+"
+:set bg=dark
+
+" Ignore case in searches
+"
+" NOTE: Can be overruled by using "\c" or "\C" in the pattern
+"
+:set ic
+
+" Set smart case
+"
+:set scs
+
+" format current paragraph
+"
+:map g }!{fmt
+
+" spell check current line
+"
+:map i !!ispell -a
+
+" trim trailing whitespace
+"
+:map l :%s/\s\+$//e
+
+" look for spaces before a tab
+"
+:map s /  *	
+
+" fix use from update area lines in ~/NOTES/installed.txt
+"
+:map u $F:Wmm$T/d`m:s/\s\+$//e
+
+" shellcheck file
+"
+" See https://github.com/itspriddle/vim-shellcheck
+"
+" To install:
+"
+" mkdir -p ~/.vim/pack/shellcheck/start
+" cd ~/.vim/pack/shellcheck/start
+" git clone https://github.com/itspriddle/vim-shellcheck.git
+" vim -u NONE -c "helptags vim-shellcheck/doc" -c q
+"
+:map c :compiler shellcheck::make! %:copen
+
+" turn on syntax coloring and detection
+"
+:syntax enable
+
+" handy to scroll between open windows
+"
+:map <F6> w
+
+" No key pressing -- focus-follows-mouse for gvim
+"
+:set mousefocus
+
+" Enable search highlighting
+"
+" NOTE: Disable search highlighting by using :nohlsearch
+"
+:set hlsearch
+
+" Enable incremental searches
+"
+:set incsearch
+
+" Set windows title to filename
+"
+:set titlestring=%t
+
+" Display the title
+"
+:set title
+
+" Display cursor position
+"
+:set ruler
+
+" Highlight trailing spaces
+"
+:let c_space_errors = 1
+
+" set spelling options
+"
+" Add a word to the dictionary: zg
+" Remove a dictionary word: zug
+" Mark a word as mis-spelled: zw
+" suggestions for a word that's bad: z=
+" Jump to the next typo: ]s
+" Jump to the prev typo: [s
+"
+:set spell spelllang=en_us
+"
+:highlight spellbad term=bold ctermfg=red cterm=bold ctermbg=0
+:highlight spellcap term=bold cterm=bold ctermfg=lightblue ctermbg=0
+:highlight spellrare ctermbg=0 cterm=bold ctermfg=green
+:highlight spelllocal ctermbg=0  cterm=bold ctermfg=green
+
+" special spell check setting for git commit Filetype
+"
+" These settings only apply when editing a gitcommit Filetype such as .git/COMMIT_EDITMSG
+"
+:autocmd! Filetype gitcommit setlocal textwidth=72 formatoptions=jt spell spelllang=en_us noai nosmartindent
+
+" Do not add spaces at the end of markdown files
+"
+:autocmd! BufWritePre *.md %s/\s\+$//e
+
+" vimdiff colors
+"
+:highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+:highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+:highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+:highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
+
+" Enable search magic
+"
+:set magic
+
+" show (partial) command in status line
+"
+:set showcmd
+
+
+""""""""""""""""""""""""""""""""""""""""""""""
+""""""""  On tabs and vim
+""""""""""""""""""""""""""""""""""""""""""""""
+
+" See: //stackoverflow.com/questions/1878974/redefine-tab-as-4-spaces
+"
+" tabstop
+"
+"    The width of a hard tabstop measured in "spaces" -- effectively the
+"    (maximum) width of an actual tab character.
+"
+:set tabstop=8
+
+" shiftwidth
+"
+"    The size of an "indent". It's also measured in spaces, so if your
+"    code base indents with tab characters then you want shiftwidth to
+"    equal the number of tab characters times tabstop. This is also used
+"    by things like the =, > and < commands.
+"
+:set shiftwidth=4
+
+" softtabstop
+"
+"    Setting this to a non-zero value other than tabstop will make the
+"    tab key (in insert mode) insert a combination of spaces (and possibly
+"    tabs) to simulate tab stops at this width.
+"
+:set softtabstop=4
+
+" expandtab
+"
+"    Enabling this will make the tab key (in insert mode) insert spaces
+"    instead of tab characters. This also affects the behavior of the
+"    retab command.
+"
+:set noexpandtab
+
+" smarttab
+"
+"    Enabling this will make the tab key (in insert mode) insert spaces
+"    or tabs to go to the next indent of the next tabstop when the cursor
+"    is at the beginning of a line (i.e. the only preceding characters
+"    are whitespace).
+"
+:set smarttab
+
+" To enable filetype plugins
+"
+" For example if a filetype, see:
+"
+"   ~/.vim/ftplugin/python.vim
+"
+" https://stackoverflow.com/a/44339554/27339496
+"
+if has("autocmd")
+    filetype plugin indent on
+endif
+
+
+""""""""""""""""""""""""""""""""""""""""""""""
+"""""""" Special calc settings for calc source that is NOT a Makefile or *.mk
+""""""""
+"""""""" see: https://github.com/lcn2/calc/issues/151#issuecomment-2145594040
+""""""""
+"""""""" To test, try and see if 0 is the answer:
+""""""""
+""""""""    :set softtabstop
+""""""""
+""""""""""""""""""""""""""""""""""""""""""""""
+
+if has("autocmd")
+    augroup calc
+    autocmd! BufNewFile,BufWritePre,BufReadPre /usr/local/src/bin/calc/* set shiftwidth=4 smarttab expandtab tabstop=8 softtabstop=0
+    autocmd! BufNewFile,BufWritePre,BufReadPre /usr/local/src/bin/calc/Makefile* set tabstop=8 shiftwidth=4 softtabstop=4 noexpandtab smarttab
+    autocmd! BufNewFile,BufWritePre,BufReadPre /usr/local/src/bin/calc/*/Makefile set tabstop=8 shiftwidth=4 softtabstop=4 noexpandtab smarttab
+    autocmd! BufNewFile,BufWritePre,BufReadPre /usr/local/src/bin/calc/rpm.mk set tabstop=8 shiftwidth=4 softtabstop=4 noexpandtab smarttab
+    augroup END
+endif
+
+
+""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""
+"""""""" General .vimrc comments
+""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""
+" Misc search and replace notes
+"
+"	\a	any alphabetic character
+"	\m	pattern after it be interpreted as if 'magic' is set
+"	\M	pattern after it be interpreted as if 'nomagic' (magic unset)
+"	\v	ASCII characters except [0-9a-zA-Z_] have special meaning: "very magic"
+"	\V	only backslash & terminating char (usually / or ?) have special meaning
+"	\c	interactive query
+"
+" Examples:
+"
+" after:    \v       \m       \M       \V         matches ~
+"                 'magic' 'nomagic'
+"           a        a        a        a          literal 'a'
+"           \a       \a       \a       \a         any alphabetic character
+"           .        .        \.       \.         any character
+"           \.       \.       .        .          literal dot
+"           $        $        $        \$         end-of-line
+"           *        *        \*       \*         any number of the previous atom
+"           ~        ~        \~       \~         latest substitute string
+"           ()       \(\)     \(\)     \(\)       group as an atom
+"           |        \|       \|       \|         nothing: separates alternatives
+"           \\       \\       \\       \\         literal backslash
+"           \{       {        {        {          literal curly brace
+
+" :set smartcase   or   :set scs	turn off:	:set noscs
+" :set ignorecase  or	:set ic		turn off:	:st noic
+"
+" pattern  :set ignorecase  :set smartcase	matches
+"
+" /foo		off		off		foo
+" /Foo		off		off		    Foo
+" /FOO		off		off		        FOO
+"
+" /foo		on		off		foo Foo FOO
+" /Foo		on		off		foo Foo FOO
+" /FOO		on		off		foo Foo FOO
+"
+" /foo		off		on		foo
+" /Foo		off		on		    Foo
+" /FOO		off		on		        FOO
+"
+" /foo		on		on		foo Foo FOO
+" /Foo		on		on		    Foo
+" /FOO		on		on		        FOO
+"
+" /\cfoo	-		-		foo Foo FOO
+" /\cFoo	-		-		foo Foo FOO
+" /\cFOO	-		-		foo Foo FOO
+"
+" /\Cfoo	-		-		foo
+" /\CFoo	-		-		    Foo
+" /\CFOO	-		-		        FOO
+""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""
+" Search ignoring case:
+"
+"	/\cFoo
+""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""
+" Search only case that MaTcHeS:
+"
+"	/\Cfoo
+""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""
+" Interactive search and replace:
+"
+"	s/old/new/c
+""""""""""""""""""""""""""""""""""""""""""""""
