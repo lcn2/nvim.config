@@ -7,6 +7,7 @@ Neovim configuration that starts off with classic `vim(1)` and uses your `~/.vim
 ```sh
 mkdir -p ~/.config
 git clone https://github.com/lcn2/nvim.config.git nvim
+cd ~/.config/nvim
 nvim init.lua
 ```
 
@@ -16,6 +17,7 @@ nvim init.lua
 
 ```sh
 if [[ -e ~/.vimrc ]]; then mv -f ~/.vimrc ~/.vimrc.old ; fi
+cd ~/.config/nvim
 cp -f NOTES/dot-vimrc ~/.vimrc
 ```
 
